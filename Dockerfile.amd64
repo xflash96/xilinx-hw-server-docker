@@ -1,0 +1,16 @@
+FROM ubuntu:22.04
+
+RUN echo /xilinx/lib/ >> /etc/ld.so.conf
+
+COPY build/amd64 /xilinx
+
+RUN ldconfig
+
+ENV XILINX_VITIS="/xilinx/xilinx_vitis"
+ENV TCLLIBPATH="/xilinx/xilinx_vitis"
+ENV TCL_LIBRARY="/xilinx/lib/tcl8.5"
+ENV DIGILENT_DATA_DIR="/xilinx/digilent_cable"
+
+ENV PATH="/xilinx/bin:${PATH}"
+
+CMD ["/xilinx/bin/hw_server"]

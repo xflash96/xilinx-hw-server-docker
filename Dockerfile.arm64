@@ -1,0 +1,21 @@
+FROM ubuntu:22.04
+#FROM xilinx/kria-runtime:latest
+RUN echo /xilinx/lib/ >> /etc/ld.so.conf
+
+COPY build/arm64 /xilinx
+
+RUN ldconfig
+
+RUN apt update
+RUN apt install -y libusb-1.0-0
+#RUN wget http://ftp.us.debian.org/debian/pool/main/libu/libusb-1.0/libusb-1.0-0_1.0.26-1_arm64.deb
+#RUN apt install -y libusb-1.0-0_1.0.26-1_arm64.deb
+
+ENV XILINX_VITIS="/xilinx/xilinx_vitis"
+ENV TCLLIBPATH="/xilinx/xilinx_vitis"
+ENV TCL_LIBRARY="/xilinx/lib/tcl8.5"
+ENV DIGILENT_DATA_DIR="/xilinx/digilent_cable"
+
+ENV PATH="/xilinx/bin:${PATH}"
+
+CMD ["/xilinx/bin/hw_server"]
